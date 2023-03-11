@@ -11,13 +11,21 @@
 // Compare Francs with Dollars - (DONE)
 // Common multiplication
 // Floating point numbers in JS :)
-// Currency?
+// Currency? - (DONE)
+// Duplicate code in Dollar and Franc
 
 export class Money {
-  constructor(protected readonly _amount: number) {}
+  constructor(
+    protected readonly _currency: string,
+    protected readonly _amount: number
+  ) {}
 
   get amount(): number {
     return this._amount;
+  }
+
+  get currency(): string {
+    return this._currency;
   }
 
   equals(money: Money): boolean {
@@ -25,11 +33,11 @@ export class Money {
   }
 
   static dollar(amount: number): Dollar {
-    return new Dollar(amount);
+    return new Dollar("USD", amount);
   }
 
   static franc(amount: number): Franc {
-    return new Franc(amount);
+    return new Franc("CHF", amount);
   }
 }
 

@@ -27,4 +27,9 @@ describe("Money", () => {
     expect(Money.dollar(5).equals(Money.franc(5))).toBeFalsy();
     expect(Money.franc(5).equals(Money.dollar(5))).toBeFalsy();
   });
+
+  test("currency", () => {
+    expect(Money.dollar(1).currency).toEqual("USD");
+    expect(Money.franc(1).currency).toEqual("CHF");
+  });
 });
