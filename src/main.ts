@@ -7,6 +7,7 @@
 // Method hashCode()
 // Compare to zero
 // Compare to null
+// 5 CHF * 2 = 10 CHF - (DONE)
 
 export class Dollar {
   constructor(private readonly _amount: number) {}
@@ -20,6 +21,22 @@ export class Dollar {
   }
 
   equals(dollar: Dollar): boolean {
+    return this._amount === dollar._amount;
+  }
+}
+
+export class Franc {
+  constructor(private readonly _amount: number) {}
+
+  get amount(): number {
+    return this._amount;
+  }
+
+  multiply(multiplier: number): Franc {
+    return new Franc(this._amount * multiplier);
+  }
+
+  equals(dollar: Franc): boolean {
     return this._amount === dollar._amount;
   }
 }
