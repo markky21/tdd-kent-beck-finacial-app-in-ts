@@ -13,7 +13,7 @@
 // Floating point numbers in JS :)
 // Currency?
 
-class Money {
+export class Money {
   constructor(protected readonly _amount: number) {}
 
   get amount(): number {
@@ -23,11 +23,19 @@ class Money {
   equals(money: Money): boolean {
     return this._amount === money._amount;
   }
+
+  static dollar(amount: number): Dollar {
+    return new Dollar(amount);
+  }
+
+  static franc(amount: number): Franc {
+    return new Franc(amount);
+  }
 }
 
 export class Dollar extends Money {
   multiply(multiplier: number): Money {
-    return new Dollar(this.amount * multiplier);
+    return Money.dollar(this.amount * multiplier);
   }
 
   equals(money: Money): boolean {
@@ -39,7 +47,7 @@ export class Dollar extends Money {
 
 export class Franc extends Money {
   multiply(multiplier: number): Money {
-    return new Franc(this.amount * multiplier);
+    return Money.franc(this.amount * multiplier);
   }
 
   equals(money: Money): boolean {

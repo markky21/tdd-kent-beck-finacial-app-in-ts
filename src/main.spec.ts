@@ -1,42 +1,30 @@
-import { Dollar, Franc } from "./main";
+import { Dollar, Franc, Money } from "./main";
 
 describe("Dollar", () => {
   test("multiply", () => {
-    const dollar1 = new Dollar(5);
+    const dollar1 = Money.dollar(5);
     const dollar2 = dollar1.multiply(2);
     expect(dollar2.amount).toEqual(10);
     expect(dollar1.amount).toEqual(5);
-  });
-
-  test("equals", () => {
-    const dollar1 = new Dollar(5);
-    const dollar2 = new Dollar(5);
-    expect(dollar1.equals(dollar2)).toBeTruthy();
   });
 });
 
 describe("Franc", () => {
   test("multiply", () => {
-    const dollar1 = new Franc(5);
-    const dollar2 = dollar1.multiply(2);
-    expect(dollar2.amount).toEqual(10);
-    expect(dollar1.amount).toEqual(5);
-  });
-
-  test("equals", () => {
-    const dollar1 = new Franc(5);
-    const dollar2 = new Franc(5);
-    expect(dollar1.equals(dollar2)).toBeTruthy();
+    const franc1 = Money.franc(5);
+    const franc2 = franc1.multiply(2);
+    expect(franc2.amount).toEqual(Money.franc(10).amount);
+    expect(franc1.amount).toEqual(Money.franc(5).amount);
   });
 });
 
 describe("Money", () => {
   test("equals", () => {
-    expect(new Dollar(5).equals(new Dollar(5))).toBeTruthy();
-    expect(new Dollar(5).equals(new Dollar(6))).toBeFalsy();
-    expect(new Franc(5).equals(new Franc(5))).toBeTruthy();
-    expect(new Franc(5).equals(new Franc(6))).toBeFalsy();
-    expect(new Dollar(5).equals(new Franc(5))).toBeFalsy();
-    expect(new Franc(5).equals(new Dollar(5))).toBeFalsy();
+    expect(Money.dollar(5).equals(Money.dollar(5))).toBeTruthy();
+    expect(Money.dollar(5).equals(Money.dollar(6))).toBeFalsy();
+    expect(Money.franc(5).equals(Money.franc(5))).toBeTruthy();
+    expect(Money.franc(5).equals(Money.franc(6))).toBeFalsy();
+    expect(Money.dollar(5).equals(Money.franc(5))).toBeFalsy();
+    expect(Money.franc(5).equals(Money.dollar(5))).toBeFalsy();
   });
 });
