@@ -32,6 +32,10 @@ export class Money {
     return this._amount === money._amount;
   }
 
+  multiply(multiplier: number): Money {
+    return new Money(this.currency, this.amount * multiplier);
+  }
+
   static dollar(amount: number): Dollar {
     return new Dollar("USD", amount);
   }
@@ -42,10 +46,6 @@ export class Money {
 }
 
 export class Dollar extends Money {
-  multiply(multiplier: number): Money {
-    return Money.dollar(this.amount * multiplier);
-  }
-
   equals(money: Money): boolean {
     return (
       this.amount === money.amount && this.constructor === money.constructor
@@ -54,10 +54,6 @@ export class Dollar extends Money {
 }
 
 export class Franc extends Money {
-  multiply(multiplier: number): Money {
-    return Money.franc(this.amount * multiplier);
-  }
-
   equals(money: Money): boolean {
     return (
       this.amount === money.amount && this.constructor === money.constructor
