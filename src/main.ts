@@ -12,7 +12,7 @@
 // Common multiplication
 // Floating point numbers in JS :)
 // Currency? - (DONE)
-// Duplicate code in Dollar and Franc
+// Duplicate code in Dollar and Franc - (DONE)
 
 export class Money {
   constructor(
@@ -29,34 +29,22 @@ export class Money {
   }
 
   equals(money: Money): boolean {
-    return this._amount === money._amount;
+    return (
+      this.currency === money.currency &&
+      this.amount === money.amount &&
+      this.constructor === money.constructor
+    );
   }
 
   multiply(multiplier: number): Money {
     return new Money(this.currency, this.amount * multiplier);
   }
 
-  static dollar(amount: number): Dollar {
-    return new Dollar("USD", amount);
+  static dollar(amount: number): Money {
+    return new Money("USD", amount);
   }
 
-  static franc(amount: number): Franc {
-    return new Franc("CHF", amount);
-  }
-}
-
-export class Dollar extends Money {
-  equals(money: Money): boolean {
-    return (
-      this.amount === money.amount && this.constructor === money.constructor
-    );
-  }
-}
-
-export class Franc extends Money {
-  equals(money: Money): boolean {
-    return (
-      this.amount === money.amount && this.constructor === money.constructor
-    );
+  static franc(amount: number): Money {
+    return new Money("CHF", amount);
   }
 }
