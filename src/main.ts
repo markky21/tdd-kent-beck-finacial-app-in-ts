@@ -8,35 +8,43 @@
 // Compare to zero
 // Compare to null
 // 5 CHF * 2 = 10 CHF - (DONE)
+// Compare Francs with Dollars - (DONE)
+// Common multiplication
+// Floating point numbers in JS :)
+// Currency?
 
-export class Dollar {
-  constructor(private readonly _amount: number) {}
+class Money {
+  constructor(protected readonly _amount: number) {}
 
   get amount(): number {
     return this._amount;
   }
 
-  multiply(multiplier: number): Dollar {
-    return new Dollar(this._amount * multiplier);
-  }
-
-  equals(dollar: Dollar): boolean {
-    return this._amount === dollar._amount;
+  equals(money: Money): boolean {
+    return this._amount === money._amount;
   }
 }
 
-export class Franc {
-  constructor(private readonly _amount: number) {}
-
-  get amount(): number {
-    return this._amount;
+export class Dollar extends Money {
+  multiply(multiplier: number): Money {
+    return new Dollar(this.amount * multiplier);
   }
 
-  multiply(multiplier: number): Franc {
-    return new Franc(this._amount * multiplier);
+  equals(money: Money): boolean {
+    return (
+      this.amount === money.amount && this.constructor === money.constructor
+    );
+  }
+}
+
+export class Franc extends Money {
+  multiply(multiplier: number): Money {
+    return new Franc(this.amount * multiplier);
   }
 
-  equals(dollar: Franc): boolean {
-    return this._amount === dollar._amount;
+  equals(money: Money): boolean {
+    return (
+      this.amount === money.amount && this.constructor === money.constructor
+    );
   }
 }
