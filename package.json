@@ -1,7 +1,7 @@
 {
   "name": "tdd-financial-app",
   "version": "1.0.0",
-  "description": "TypeScript finansial app based on Kent Beck TDD book",
+  "description": "TypeScript financial app based on Kent Beck TDD book",
   "main": "main.ts",
   "scripts": {
     "test": "jest",

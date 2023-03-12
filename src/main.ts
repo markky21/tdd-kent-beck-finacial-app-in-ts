@@ -24,38 +24,6 @@
 type Currency = "USD" | "CHF";
 type HashCode = string;
 
-export interface Expression {
-  readonly amount: number;
-  reduce(bank: Bank, to: Currency): Expression;
-  add(addend: Expression): Expression;
-  multiply(multiplier: number): Expression;
-}
-
-export class Sum implements Expression {
-  constructor(readonly augend: Expression, readonly addend: Expression) {}
-
-  get amount(): number {
-    return this.augend.amount;
-  }
-
-  reduce(bank: Bank, to: Currency): Expression {
-    const amount =
-      bank.reduce(this.augend, to).amount + bank.reduce(this.addend, to).amount;
-    return new Money(to, amount);
-  }
-
-  add(addend: Expression): Expression {
-    return new Sum(this, addend);
-  }
-
-  multiply(multiplier: number): Expression {
-    return new Sum(
-      this.augend.multiply(multiplier),
-      this.addend.multiply(multiplier)
-    );
-  }
-}
-
 export class Pair {
   constructor(readonly from: Currency, readonly to: Currency) {}
 
@@ -83,6 +51,38 @@ export class Bank {
   }
 
   private rates: Map<HashCode, number> = new Map();
+}
+
+export class Sum implements Expression {
+  constructor(readonly augend: Expression, readonly addend: Expression) {}
+
+  get amount(): number {
+    return this.augend.amount;
+  }
+
+  add(addend: Expression): Expression {
+    return new Sum(this, addend);
+  }
+
+  reduce(bank: Bank, to: Currency): Expression {
+    const amount =
+      bank.reduce(this.augend, to).amount + bank.reduce(this.addend, to).amount;
+    return new Money(to, amount);
+  }
+
+  multiply(multiplier: number): Expression {
+    return new Sum(
+      this.augend.multiply(multiplier),
+      this.addend.multiply(multiplier)
+    );
+  }
+}
+
+export interface Expression {
+  readonly amount: number;
+  reduce(bank: Bank, to: Currency): Expression;
+  add(addend: Expression): Expression;
+  multiply(multiplier: number): Expression;
 }
 
 export class Money implements Expression {
