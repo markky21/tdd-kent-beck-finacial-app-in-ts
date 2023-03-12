@@ -18,22 +18,33 @@
 // Common multiplication
 // Floating point numbers in JS :)
 // Money object as result of addition 5 USD + 5 USD
+// Sum.plus()
+// Expression.times()
 
 type Currency = "USD" | "CHF";
 type HashCode = string;
 
 export interface Expression {
-  reduce(bank: Bank, to: Currency): Money;
+  readonly amount: number;
+  reduce(bank: Bank, to: Currency): Expression;
+  add(addend: Expression): Expression;
 }
 
 export class Sum implements Expression {
-  constructor(readonly augend: Money, readonly addend: Money) {}
+  constructor(readonly augend: Expression, readonly addend: Expression) {}
 
-  reduce(bank: Bank, to: Currency): Money {
-    return new Money(
-      this.augend.currency,
-      this.augend.amount + this.addend.amount
-    );
+  get amount(): number {
+    return this.augend.amount;
+  }
+
+  reduce(bank: Bank, to: Currency): Expression {
+    const amount =
+      bank.reduce(this.augend, to).amount + bank.reduce(this.addend, to).amount;
+    return new Money(to, amount);
+  }
+
+  add(addend: Expression): Expression {
+    return null as unknown as Expression;
   }
 }
 
@@ -50,7 +61,7 @@ export class Pair {
 }
 
 export class Bank {
-  reduce(source: Expression, to: Currency): Money {
+  reduce(source: Expression, to: Currency): Expression {
     return source.reduce(this, to);
   }
 
@@ -88,11 +99,11 @@ export class Money implements Expression {
     );
   }
 
-  multiply(multiplier: number): Money {
+  multiply(multiplier: number): Expression {
     return new Money(this.currency, this.amount * multiplier);
   }
 
-  add(addend: Money): Sum {
+  add(addend: Money): Expression {
     return new Sum(this, addend);
   }
 
