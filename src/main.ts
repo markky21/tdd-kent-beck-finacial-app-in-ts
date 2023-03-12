@@ -9,8 +9,10 @@
 // Reduce (Bank, string) - (DONE)
 // Reduce Money with conversion - (DONE)
 // 5 USD + 5 USD = 10 USD - (DONE)
+// 5 USD + 10 CHF = 20 USD if rate is USD:CHF=2:1 - (DONE)
+// Sum.plus() - (DONE)
+// Expression.times() - (DONE)
 
-// 5 USD + 10 CHF = 20 USD if rate is USD:CHF=2:1
 // What about rounding?
 // Method hashCode()
 // Compare to zero
@@ -18,8 +20,6 @@
 // Common multiplication
 // Floating point numbers in JS :)
 // Money object as result of addition 5 USD + 5 USD
-// Sum.plus()
-// Expression.times()
 
 type Currency = "USD" | "CHF";
 type HashCode = string;
@@ -28,6 +28,7 @@ export interface Expression {
   readonly amount: number;
   reduce(bank: Bank, to: Currency): Expression;
   add(addend: Expression): Expression;
+  multiply(multiplier: number): Expression;
 }
 
 export class Sum implements Expression {
@@ -44,7 +45,14 @@ export class Sum implements Expression {
   }
 
   add(addend: Expression): Expression {
-    return null as unknown as Expression;
+    return new Sum(this, addend);
+  }
+
+  multiply(multiplier: number): Expression {
+    return new Sum(
+      this.augend.multiply(multiplier),
+      this.addend.multiply(multiplier)
+    );
   }
 }
 
